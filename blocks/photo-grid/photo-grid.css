@@ -5,3 +5,12 @@
   gap: 25px 19px;
   font-size: 0;
 }
+
+@media screen and (max-width: 1080px) {
+  .photo-grid {
+    padding: 0 19px 30px;
+    grid-template-columns: 280px;
+    grid-template-rows: repeat(6, 361px);
+    grid-row-gap: 20px;
+  }
+}

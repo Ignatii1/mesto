@@ -1,7 +1,7 @@
 .profile__name {
   padding: 0;
   margin: 0;
-  grid-area: name;
+  padding-right: 18px;
   align-self: end;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-style: normal;
@@ -9,4 +9,15 @@
   font-size: 42px;
   line-height: 48px;
   color: #fff;
+}
+
+@media screen and (max-width: 790px) {
+  .profile__name {
+    padding-right: 10px;
+    padding-left: 20px;
+    font-size: 27px;
+    line-height: 33px;
+    align-self:flex-end;
+    text-align: center;
+  }
 }

@@ -7,3 +7,11 @@
   background-repeat: no-repeat;
   border: 0;
 }
+
+.photo-grid__item-btn:hover {
+  background-image: url(../../../images/like-hover.svg);
+}
+
+.photo-grid__item-btn:active {
+  background-image: url(../../../images/like-active.svg);
+}

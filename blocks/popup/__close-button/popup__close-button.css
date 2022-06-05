@@ -4,8 +4,22 @@
   right: -110px;
   min-height: 32px;
   min-width: 32px;
+  cursor: pointer;
   background-image: url(../../../images/Close.svg);
   background-position: center;
   background-color: transparent;
   border: none;
+  transition: all .3s linear;
+}
+
+.popup__close-button:hover {
+  opacity: 0.6;
+  background-image: url(../../../images/close-hover.svg);
+}
+
+@media screen and (max-width: 650px) {
+  .popup__close-button {
+    top: -50px;
+    right: -45px;
+  }
 }
