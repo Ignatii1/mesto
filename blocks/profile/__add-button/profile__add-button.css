@@ -1,4 +1,5 @@
 .profile__add-button {
+  padding: 0;
   grid-area: add;
   align-self: center;
   justify-self: end;
@@ -8,7 +9,8 @@
   border-radius: 2px;
   cursor: pointer;
   background-color: #000;
-  background-image: url(../../../images/krestik.png);
+  background-image: url(../../../images/krestik.svg);
+  background-size: 22px;
   background-position: center center;
   background-repeat: no-repeat;
   transition: all .3s linear;
@@ -16,13 +18,12 @@
 
 .profile__add-button:hover {
   opacity: 0.6;
-  background-image: url(../../../images/krestik-hover.png);
 }
 
 @media screen and (max-width: 321px) {
   .profile__add-button {
     width: 100%;
     justify-self: center;
-    background-image: url(../../../images/krestik-mini.png);
+    background-size: 16px;
   }
 }

@@ -7,8 +7,6 @@ let inputName = document.querySelector('.popup__input-name');
 let inputDescription = document.querySelector('.popup__input-description');
 let formElement = document.querySelector('.popup__container');
 
-console.log(userName.innerText);
-
 edit.addEventListener('click', function() {
   popup.classList.add('popup_opened');
   inputName.value = userName.innerText;
@@ -23,6 +21,5 @@ formElement.addEventListener('submit', function(evt) {
   evt.preventDefault();
   userName.innerText = inputName.value;
   userDescription.innerText = inputDescription.value;
-  console.log(formElement.innerText);
   popup.classList.remove('popup_opened');
 })

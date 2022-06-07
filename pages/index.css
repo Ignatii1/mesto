@@ -2,8 +2,6 @@
 @import url(../vendor/fonts/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/header/header.css);
-@import url(../blocks/header/__logo/header__logo.css);
-@import url(../blocks/header/__logo-img/header__logo-img.css);
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/profile/__name/profile__name.css);
@@ -12,7 +10,6 @@
 @import url(../blocks/profile/__name-container/profile__name-container.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/photo-grid/photo-grid.css);
-@import url(../blocks/photo-grid/__item/photo-grid__item.css);
 @import url(../blocks/photo-grid/__item-img/photo-grid__item-img.css);
 @import url(../blocks/photo-grid/__item-description/photo-grid__item-description.css);
 @import url(../blocks/photo-grid/__item-name/photo-grid__item-name.css);

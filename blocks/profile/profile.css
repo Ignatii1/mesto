@@ -4,7 +4,7 @@
   grid-template-rows: minmax(70px, min-content) minmax(50px, min-content);
   grid-template-areas:
   "avatar name name . add"
-  "avatar description . . add";
+  "avatar description description . add";
   width: 100%;
   padding: 37px 0 52px;
 }
