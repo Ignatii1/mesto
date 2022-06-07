@@ -12,3 +12,8 @@
   color: #000000;
 }
 
+@media screen and (max-width: 650px) {
+  .popup__input-text {
+    padding-bottom: 10px;
+  }
+}
