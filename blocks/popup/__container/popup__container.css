@@ -14,5 +14,6 @@
     box-sizing: border-box;
     padding: 25px 22px;
     max-width: 282px;
+    min-width: 280px;
   }
 }
