@@ -43,13 +43,19 @@ const initialCards = [
   }
 ];
 
+// RENDER new
+
 const renderItem = (name, img) => {
   const newElement = itemTemplate.querySelector('.photo-grid__item').cloneNode(true);
   const itemImg = newElement.querySelector('.photo-grid__item-img');
   const itemName = newElement.querySelector('.photo-grid__item-name');
+  const likeButton = document.querySelector('.photo-grid__item-btn');
   itemImg.src = img;
   itemName.innerText = name;
   photoGrid.prepend(newElement);
+  likeButton.addEventListener('click', function() {
+  // likeButton.classList.toggle('.photo-grid__item-btn_liked'); ДОБАВИТЬ СТИЛИ ДЛЯ ЧЕРНОГО СЕРДЦА ПРИ ЛАЙКЕ
+})
 }
 
 // INITIAL render
@@ -93,3 +99,7 @@ popupAddSubmit.addEventListener('click', function (e) {
   addName.value = '';
   addLink.value = '';
 })
+
+// LIKE 
+
+
