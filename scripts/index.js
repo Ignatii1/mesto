@@ -3,11 +3,15 @@ const add = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupCloseButton = document.querySelector('.popup__close-button');
+const popupAddSubmit = document.querySelector('.popup__add-button');
 const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const photoGrid = document.querySelector('.photo-grid');
 const itemTemplate = document.querySelector('.item__template').content;
+const popupSaveSubmit = document.querySelector('.popup__save-button');
 let userName = document.querySelector('.profile__name');
 let userDescription = document.querySelector('.profile__description');
+let addName = document.querySelector('.popup__add-name');
+let addLink = document.querySelector('.popup__add-link');
 let inputName = document.querySelector('.popup__input-name');
 let inputDescription = document.querySelector('.popup__input-description');
 let formElement = document.querySelector('.popup__container');
@@ -45,8 +49,10 @@ const renderItem = (name, img) => {
   const itemName = newElement.querySelector('.photo-grid__item-name');
   itemImg.src = img;
   itemName.innerText = name;
-  photoGrid.append(newElement);
+  photoGrid.prepend(newElement);
 }
+
+// INITIAL render
 
 initialCards.forEach(item => renderItem(item.name, item.link));
 
@@ -62,7 +68,7 @@ popupCloseButton.addEventListener('click', function() {
   popupEdit.classList.remove('popup_opened');
 })
 
-formElement.addEventListener('submit', function(evt) {
+popupSaveSubmit.addEventListener('click', function(evt) {
   evt.preventDefault();
   userName.innerText = inputName.value;
   userDescription.innerText = inputDescription.value;
@@ -77,4 +83,13 @@ add.addEventListener('click', function() {
 
 popupCloseButtonAdd.addEventListener('click', function() {
   popupAdd.classList.remove('popup_opened');
+})
+
+popupAddSubmit.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log(addName.value,addLink.value);
+  renderItem(addName.value,addLink.value);
+  popupAdd.classList.remove('popup_opened');
+  addName.value = '';
+  addLink.value = '';
 })
