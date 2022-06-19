@@ -9,4 +9,9 @@
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
+  transition: opacity .4s linear;
+}
+
+.photo-grid__delete-btn:hover {
+  opacity: 0.6;
 }
