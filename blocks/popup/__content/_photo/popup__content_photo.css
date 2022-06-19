@@ -1,8 +1,3 @@
 .popup__content_photo {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
   align-self: center;
-  max-height: 75vh;
-  max-width: 75vw;;
 }
