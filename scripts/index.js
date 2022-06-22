@@ -1,5 +1,5 @@
-const edit = document.querySelector('.profile__edit-button');
-const add = document.querySelector('.profile__add-button');
+const editProfile = document.querySelector('.profile__edit-button');
+const addCard = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupPhoto = document.querySelector('.popup_photo');
@@ -8,12 +8,12 @@ const popupAddSubmit = document.querySelector('.popup__add-button');
 const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const popupCloseButtonPhoto = document.querySelector('.popup__close-button_photo');
 const photoGrid = document.querySelector('.photo-grid');
-const itemTemplate = document.querySelector('#item__template').content;
+const cardTemplate = document.querySelector('#item__template').content;
 const popupSaveSubmit = document.querySelector('.popup__save-button');
 const popupPhotoImage = document.querySelector('.popup__image');
 const popupPhotoDescription = document.querySelector('.popup__description');
-let userName = document.querySelector('.profile__name');
-let userDescription = document.querySelector('.profile__description');
+const userName = document.querySelector('.profile__name');
+const userDescription = document.querySelector('.profile__description');
 let addName = document.querySelector('.popup__add-name');
 let addLink = document.querySelector('.popup__add-link');
 let inputName = document.querySelector('.popup__input-name');
@@ -25,7 +25,7 @@ let inputDescription = document.querySelector('.popup__input-description');
 // RENDER new
 
 const renderItem = (name, img) => {
-  const newElement = itemTemplate.querySelector('.photo-grid__item').cloneNode(true);
+  const newElement = cardTemplate.querySelector('.photo-grid__item').cloneNode(true);
   const itemImg = newElement.querySelector('.photo-grid__item-img');
   const itemName = newElement.querySelector('.photo-grid__item-name');
   let likeButton = newElement.querySelector('.photo-grid__item-btn');
@@ -58,7 +58,7 @@ initialCards.forEach(item => renderItem(item.name, item.link));
 
 // EDIT button
 
-edit.addEventListener('click', function() {
+editProfile.addEventListener('click', function() {
   popupEdit.classList.add('popup_opened');
   inputName.value = userName.innerText;
   inputDescription.value = userDescription.innerText;
@@ -77,7 +77,7 @@ popupSaveSubmit.addEventListener('click', function(evt) {
 
 // ADD button
 
-add.addEventListener('click', function() {
+addCard.addEventListener('click', function() {
   popupAdd.classList.add('popup_opened');
 })
 
