@@ -14,10 +14,10 @@ const popupPhotoImage = document.querySelector('.popup__image');
 const popupPhotoDescription = document.querySelector('.popup__description');
 const userName = document.querySelector('.profile__name');
 const userDescription = document.querySelector('.profile__description');
-let addName = document.querySelector('.popup__add-name');
-let addLink = document.querySelector('.popup__add-link');
-let inputName = document.querySelector('.popup__input-name');
-let inputDescription = document.querySelector('.popup__input-description');
+const inputAddName = document.querySelector('.popup__add-name');
+const inputAddLink = document.querySelector('.popup__add-link');
+const inputName = document.querySelector('.popup__input-name');
+const inputDescription = document.querySelector('.popup__input-description');
 
 //POPUP Photo
 
@@ -60,8 +60,8 @@ initialCards.forEach(item => renderItem(item.name, item.link));
 
 editProfile.addEventListener('click', function() {
   popupEdit.classList.add('popup_opened');
-  inputName.value = userName.innerText;
-  inputDescription.value = userDescription.innerText;
+  inputName.textContent = userName.textContent;
+  inputDescription.textContent = userDescription.textContent;
 })
 
 popupCloseButton.addEventListener('click', function() {
@@ -70,8 +70,8 @@ popupCloseButton.addEventListener('click', function() {
 
 popupSaveSubmit.addEventListener('click', function(evt) {
   evt.preventDefault();
-  userName.innerText = inputName.value;
-  userDescription.innerText = inputDescription.value;
+  userName.textContent = inputName.textContent;
+  userDescription.textContent = inputDescription.textContent;
   popupEdit.classList.remove('popup_opened');
 })
 
@@ -87,11 +87,10 @@ popupCloseButtonAdd.addEventListener('click', function() {
 
 popupAddSubmit.addEventListener('click', function (e) {
   e.preventDefault();
-  console.log(addName.value,addLink.value);
-  renderItem(addName.value,addLink.value);
+  renderItem(inputAddName.value,inputAddLink.value);
   popupAdd.classList.remove('popup_opened');
-  addName.value = '';
-  addLink.value = '';
+  inputAddName.value = '';
+  inputAddLink.value = '';
 })
 
 
