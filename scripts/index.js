@@ -24,12 +24,12 @@ const inputDescription = document.querySelector('.popup__input-description');
 
 // RENDER new
 
-const renderItem = (name, img) => {
+const createCard = (name, img) => {
   const newElement = cardTemplate.querySelector('.photo-grid__item').cloneNode(true);
   const itemImg = newElement.querySelector('.photo-grid__item-img');
   const itemName = newElement.querySelector('.photo-grid__item-name');
-  let likeButton = newElement.querySelector('.photo-grid__item-btn');
-  let deleteButton = newElement.querySelector('.photo-grid__delete-btn');
+  const likeButton = newElement.querySelector('.photo-grid__item-btn');
+  const deleteButton = newElement.querySelector('.photo-grid__delete-btn');
   itemImg.src = img;
   itemName.innerText = name;
 
@@ -49,12 +49,17 @@ const renderItem = (name, img) => {
   likeButton.addEventListener('click', () => {
     likeButton.classList.toggle('photo-grid__item-btn_liked');
   });
-  photoGrid.prepend(newElement);
+  return newElement;
+}
+
+const renderItem = (newElement) => {
+  const card = createCard(newElement.name,newElement.link);
+  photoGrid.prepend(card);
 }
 
 // INITIAL render
 
-initialCards.forEach(item => renderItem(item.name, item.link));
+initialCards.forEach(item => renderItem(item));
 
 // EDIT button
 
@@ -68,7 +73,7 @@ popupCloseButton.addEventListener('click', function() {
   popupEdit.classList.remove('popup_opened');
 })
 
-popupSaveSubmit.addEventListener('click', function(evt) {
+popupSaveSubmit.addEventListener('submit', function(evt) {
   evt.preventDefault();
   userName.textContent = inputName.textContent;
   userDescription.textContent = inputDescription.textContent;
