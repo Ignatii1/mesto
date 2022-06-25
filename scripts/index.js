@@ -4,12 +4,12 @@ const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupPhoto = document.querySelector('.popup_photo');
 const popupCloseButton = document.querySelector('.popup__close-button');
-const popupAddSubmit = document.querySelector('.popup__add-button');
+const popupEditForm = document.querySelector('.popup__container');
+const popupAddForm = document.querySelector('.popup__container_add');
 const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const popupCloseButtonPhoto = document.querySelector('.popup__close-button_photo');
 const photoGrid = document.querySelector('.photo-grid');
 const cardTemplate = document.querySelector('#item__template').content;
-const popupSaveSubmit = document.querySelector('.popup__save-button');
 const popupPhotoImage = document.querySelector('.popup__image');
 const popupPhotoDescription = document.querySelector('.popup__description');
 const userName = document.querySelector('.profile__name');
@@ -19,7 +19,15 @@ const inputAddLink = document.querySelector('.popup__add-link');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
 
-//POPUP Photo
+//POPUP open and close
+
+const openPopup = (item) => {
+  item.classList.add('popup_opened');
+}
+
+const closePopup = (item) => {
+  item.classList.remove('popup_opened');
+}
 
 
 // RENDER new
@@ -36,9 +44,9 @@ const createCard = (name, img) => {
   itemImg.addEventListener('click', (e) => {
     popupPhotoImage.src = e.target.src;
     popupPhotoDescription.innerText = itemName.innerText;
-    popupPhoto.classList.add('popup_opened');
+    openPopup(popupPhoto);
     popupCloseButtonPhoto.addEventListener('click', function() {
-      popupPhoto.classList.remove('popup_opened');
+      closePopup(popupPhoto);
     })
   });
 
@@ -52,8 +60,8 @@ const createCard = (name, img) => {
   return newElement;
 }
 
-const renderItem = (newElement) => {
-  const card = createCard(newElement.name,newElement.link);
+const renderItem = ({name, link}) => {
+  const card = createCard(name, link);
   photoGrid.prepend(card);
 }
 
@@ -64,36 +72,39 @@ initialCards.forEach(item => renderItem(item));
 // EDIT button
 
 editProfile.addEventListener('click', function() {
-  popupEdit.classList.add('popup_opened');
-  inputName.textContent = userName.textContent;
-  inputDescription.textContent = userDescription.textContent;
+  openPopup(popupEdit);
+  inputName.value = userName.textContent;
+  inputDescription.value = userDescription.textContent;
 })
 
 popupCloseButton.addEventListener('click', function() {
-  popupEdit.classList.remove('popup_opened');
+  closePopup(popupEdit);
 })
 
-popupSaveSubmit.addEventListener('submit', function(evt) {
+popupEditForm.addEventListener('submit', function(evt) {
   evt.preventDefault();
-  userName.textContent = inputName.textContent;
-  userDescription.textContent = inputDescription.textContent;
-  popupEdit.classList.remove('popup_opened');
+  userName.textContent = inputName.value;
+  userDescription.textContent = inputDescription.value;
+  closePopup(popupEdit);
 })
 
 // ADD button
 
 addCard.addEventListener('click', function() {
-  popupAdd.classList.add('popup_opened');
+  openPopup(popupAdd);
 })
 
 popupCloseButtonAdd.addEventListener('click', function() {
-  popupAdd.classList.remove('popup_opened');
+  closePopup(popupAdd);
 })
 
-popupAddSubmit.addEventListener('click', function (e) {
+popupAddForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  renderItem(inputAddName.value,inputAddLink.value);
-  popupAdd.classList.remove('popup_opened');
+  const newEl = {};
+  newEl.name = inputAddName.value;
+  newEl.link = inputAddLink.value;
+  renderItem(newEl);
+  closePopup(popupAdd);
   inputAddName.value = '';
   inputAddLink.value = '';
 })
