@@ -1,5 +1,5 @@
-const editProfile = document.querySelector('.profile__edit-button');
-const addCard = document.querySelector('.profile__add-button');
+const ProfileEditButton = document.querySelector('.profile__edit-button');
+const CardAddButton = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupPhoto = document.querySelector('.popup_photo');
@@ -39,39 +39,41 @@ const createCard = (name, img) => {
   const likeButton = newElement.querySelector('.photo-grid__item-btn');
   const deleteButton = newElement.querySelector('.photo-grid__delete-btn');
   itemImg.src = img;
+  itemImg.alt = name;
   itemName.innerText = name;
-
   itemImg.addEventListener('click', (e) => {
-    popupPhotoImage.src = e.target.src;
+    popupPhotoImage.src = itemImg.src;
     popupPhotoDescription.innerText = itemName.innerText;
     openPopup(popupPhoto);
     popupCloseButtonPhoto.addEventListener('click', function() {
       closePopup(popupPhoto);
     })
   });
-
   deleteButton.addEventListener('click', () => {
     newElement.remove();
   });
-
   likeButton.addEventListener('click', () => {
     likeButton.classList.toggle('photo-grid__item-btn_liked');
   });
   return newElement;
 }
 
-const renderItem = ({name, link}) => {
+const addCard = ({name, link}) => {
   const card = createCard(name, link);
+  renderItem(card);
+}
+
+const renderItem = (card) => {
   photoGrid.prepend(card);
 }
 
 // INITIAL render
 
-initialCards.forEach(item => renderItem(item));
+initialCards.forEach(addCard);
 
 // EDIT button
 
-editProfile.addEventListener('click', function() {
+ProfileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
@@ -90,7 +92,7 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 // ADD button
 
-addCard.addEventListener('click', function() {
+CardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
 })
 
@@ -100,10 +102,11 @@ popupCloseButtonAdd.addEventListener('click', function() {
 
 popupAddForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  const newEl = {};
-  newEl.name = inputAddName.value;
-  newEl.link = inputAddLink.value;
-  renderItem(newEl);
+  const newEl = {
+    name: inputAddName.value,
+    link: inputAddLink.value
+  };
+  addCard(newEl);
   closePopup(popupAdd);
   inputAddName.value = '';
   inputAddLink.value = '';
