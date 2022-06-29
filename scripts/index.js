@@ -1,5 +1,5 @@
-const ProfileEditButton = document.querySelector('.profile__edit-button');
-const CardAddButton = document.querySelector('.profile__add-button');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const cardAddButton = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupPhoto = document.querySelector('.popup_photo');
@@ -43,6 +43,7 @@ const createCard = (name, img) => {
   itemName.innerText = name;
   itemImg.addEventListener('click', (e) => {
     popupPhotoImage.src = itemImg.src;
+    popupPhotoImage.alt = name;
     popupPhotoDescription.innerText = itemName.innerText;
     openPopup(popupPhoto);
     popupCloseButtonPhoto.addEventListener('click', function() {
@@ -73,7 +74,7 @@ initialCards.forEach(addCard);
 
 // EDIT button
 
-ProfileEditButton.addEventListener('click', function() {
+profileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
@@ -92,7 +93,7 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 // ADD button
 
-CardAddButton.addEventListener('click', function() {
+cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
 })
 
