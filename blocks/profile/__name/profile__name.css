@@ -2,7 +2,7 @@
   margin: 0;
   padding-right: 18px;
   align-self: end;
-  max-width: 100%;
+  max-width: 315px;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -16,6 +16,7 @@
 
 @media screen and (max-width: 790px) {
   .profile__name {
+    max-width: 240px;
     padding-right: 10px;
     padding-left: 20px;
     font-size: 27px;
