@@ -23,10 +23,12 @@ const inputDescription = document.querySelector('.popup__input-description');
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeOnEsc);
 }
 
 const closePopup = (item) => {
   item.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeOnEsc);
 }
 
 
@@ -46,9 +48,6 @@ const createCard = (name, img) => {
     popupPhotoImage.alt = name;
     popupPhotoDescription.innerText = itemName.innerText;
     openPopup(popupPhoto);
-    popupCloseButtonPhoto.addEventListener('click', function() {
-      closePopup(popupPhoto);
-    })
   });
   deleteButton.addEventListener('click', () => {
     newCard.remove();
@@ -76,7 +75,6 @@ initialCards.forEach(addCard);
 
 profileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
-  document.addEventListener('keydown', closeOnEsc);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
   validateOnOpen(popupEditForm);
@@ -84,7 +82,6 @@ profileEditButton.addEventListener('click', function() {
 
 popupCloseButton.addEventListener('click', function() {
   closePopup(popupEdit);
-  document.removeEventListener('keydown', closeOnEsc);
 })
 
 popupEditForm.addEventListener('submit', function(evt) {
@@ -98,7 +95,6 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
-  document.addEventListener('keydown', closeOnEsc);
   validateOnOpen(popupAddForm);
 })
 
@@ -106,7 +102,6 @@ popupCloseButtonAdd.addEventListener('click', function() {
   inputAddName.value = '';
   inputAddLink.value = '';
   closePopup(popupAdd);
-  document.removeEventListener('keydown', closeOnEsc);
 })
 
 popupAddForm.addEventListener('submit', function (e) {
@@ -222,4 +217,7 @@ const closeOnEsc = (e) => {
   }
 }
 
+popupCloseButtonPhoto.addEventListener('click', function() {
+  closePopup(popupPhoto);
+});
 
