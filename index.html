@@ -40,7 +40,7 @@
   </footer>
   <div class="popup popup_edit">
     <div class="popup__content">
-      <button class="popup__close-button" type="button"  aria-label="Close"></button>
+      <button class="popup__close-button popup__close-button_edit" type="button"  aria-label="Close"></button>
       <form class="form popup__container" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <input type="text" class="popup__input popup__input-name" id="name-input" placeholder="Имя" minlength="2" maxlength="40" required>
@@ -72,12 +72,12 @@
     </figure>
   </div>
   <template id="item__template">
-    <article class="photo-grid__item">
-      <img src="#" alt="" class="photo-grid__item-img">
+    <article class="photo-grid__card">
+      <img src="#" alt="" class="photo-grid__card-img">
       <button class="photo-grid__delete-btn" type="button" aria-label="Delete"></button>
       <div class="photo-grid__item-description">
-        <h2 class="photo-grid__item-name"></h2>
-        <button class="photo-grid__item-btn" type="button"  aria-label="Like"></button>
+        <h2 class="photo-grid__card-name"></h2>
+        <button class="photo-grid__card-btn" type="button"  aria-label="Like"></button>
       </div>
     </article>
   </template>
