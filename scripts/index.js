@@ -118,7 +118,16 @@ popupAddForm.addEventListener('submit', function (e) {
 
 // FORMS validation
 
-const enableValidation = () => {
+const settings = {
+  formSelector: '.form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input-error_active',
+  errorClass: 'popup__input_type_error'
+}
+
+const enableValidation = (settings) => {
   const formList = Array.from(document.querySelectorAll('.form'));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
@@ -155,11 +164,9 @@ const enableButton = (buttonElement) => {
 const toggleButtonState = (inputList, buttonElement) => {
   console.log('до условия');
   if (hasInvalidInput(inputList)) {
-    console.log(buttonElement.validity.valid);
     buttonElement.setAttribute('disabled', 'disabled');
     buttonElement.classList.add('popup__save-button_disabled');
   } else {
-    console.log('нет невалидных инпутов');
     buttonElement.removeAttribute('disabled');
     buttonElement.classList.remove('popup__save-button_disabled');
   }
@@ -193,7 +200,7 @@ const validateOnOpen = (form) => {
   });
 };
 
-enableValidation();
+enableValidation(settings);
 
 // OVERLAY close on click
 
