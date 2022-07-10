@@ -76,6 +76,7 @@ initialCards.forEach(addCard);
 
 profileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
+  document.addEventListener('keydown', closeOnEsc);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
   validateOnOpen(popupEditForm);
@@ -83,6 +84,7 @@ profileEditButton.addEventListener('click', function() {
 
 popupCloseButton.addEventListener('click', function() {
   closePopup(popupEdit);
+  document.removeEventListener('keydown', closeOnEsc);
 })
 
 popupEditForm.addEventListener('submit', function(evt) {
@@ -96,6 +98,7 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
+  document.addEventListener('keydown', closeOnEsc);
   validateOnOpen(popupAddForm);
 })
 
@@ -103,6 +106,7 @@ popupCloseButtonAdd.addEventListener('click', function() {
   inputAddName.value = '';
   inputAddLink.value = '';
   closePopup(popupAdd);
+  document.removeEventListener('keydown', closeOnEsc);
 })
 
 popupAddForm.addEventListener('submit', function (e) {
@@ -186,10 +190,13 @@ popups.forEach((popup) => {
 });
 
 // Close on Esc
-document.addEventListener('keydown', (e) => {
+
+const closeOnEsc = (e) => {
   if (e.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
+    document.removeEventListener('keydown', closeOnEsc);
   }
-});
+}
+
 
