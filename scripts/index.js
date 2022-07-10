@@ -21,8 +21,8 @@ const inputDescription = document.querySelector('.popup__input-description');
 
 //POPUP open and close
 
-const openPopup = (item) => {
-  item.classList.add('popup_opened');
+const openPopup = (popup) => {
+  popup.classList.add('popup_opened');
 }
 
 const closePopup = (item) => {
@@ -33,11 +33,11 @@ const closePopup = (item) => {
 // RENDER new
 
 const createCard = (name, img) => {
-  const newElement = cardTemplate.querySelector('.photo-grid__item').cloneNode(true);
-  const itemImg = newElement.querySelector('.photo-grid__item-img');
-  const itemName = newElement.querySelector('.photo-grid__item-name');
-  const likeButton = newElement.querySelector('.photo-grid__item-btn');
-  const deleteButton = newElement.querySelector('.photo-grid__delete-btn');
+  const newCard = cardTemplate.querySelector('.photo-grid__item').cloneNode(true);
+  const itemImg = newCard.querySelector('.photo-grid__item-img');
+  const itemName = newCard.querySelector('.photo-grid__item-name');
+  const likeButton = newCard.querySelector('.photo-grid__item-btn');
+  const deleteButton = newCard.querySelector('.photo-grid__delete-btn');
   itemImg.src = img;
   itemImg.alt = name;
   itemName.innerText = name;
@@ -51,12 +51,12 @@ const createCard = (name, img) => {
     })
   });
   deleteButton.addEventListener('click', () => {
-    newElement.remove();
+    newCard.remove();
   });
   likeButton.addEventListener('click', () => {
     likeButton.classList.toggle('photo-grid__item-btn_liked');
   });
-  return newElement;
+  return newCard;
 }
 
 const addCard = ({name, link}) => {
