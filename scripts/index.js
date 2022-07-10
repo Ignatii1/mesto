@@ -159,7 +159,7 @@ const enableButton = (buttonElement) => {
 
 const toggleButtonState = (inputList, buttonElement) => {
   console.log('до условия');
-  if (!hasInvalidInput(inputList)) {
+  if (hasInvalidInput(inputList)) {
     console.log(buttonElement.validity.valid);
     buttonElement.setAttribute('disabled', 'disabled');
     buttonElement.classList.add('popup__save-button_disabled');
@@ -185,12 +185,15 @@ const setEventListeners = (formElement) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
 
 const validateOnOpen = (form) => {
   const formInputs = Array.from(form.querySelectorAll('.popup__input'));
+  const buttonElement = form.querySelector('.popup__submit');
+  toggleButtonState(formInputs, buttonElement);
   formInputs.forEach((formInput) => {
     checkInputValidity(form, formInput);
   });
