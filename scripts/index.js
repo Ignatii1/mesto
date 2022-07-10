@@ -121,7 +121,7 @@ popupAddForm.addEventListener('submit', function (e) {
   inputAddLink.value = '';
 })
 
-// FORMS
+// FORMS validation
 
 const enableValidation = () => {
   const formList = Array.from(document.querySelectorAll('.form'));
@@ -147,21 +147,41 @@ const hideInputError = (formElement, inputElement) => {
   errorElement.textContent = '';
 };
 
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement)=>{
+    return !inputElement.validity.valid;
+  })
+}
+
+const enableButton = (buttonElement) => {
+
+}
+
+const toggleButtonState = (inputList, buttonElement) => {
+  console.log('до условия');
+  if (!hasInvalidInput(inputList)) {
+    console.log(buttonElement.validity.valid);
+    buttonElement.setAttribute('disabled', 'disabled');
+    buttonElement.classList.add('popup__save-button_disabled');
+  } else {
+    console.log('нет невалидных инпутов');
+    buttonElement.removeAttribute('disabled');
+    buttonElement.classList.remove('popup__save-button_disabled');
+  }
+}
+
 const checkInputValidity = (formElement, inputElement) => {
-  const submitButton = formElement.querySelector('.popup__submit');
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage);
-    submitButton.setAttribute('disabled', 'disabled');
-    submitButton.classList.add('popup__save-button_disabled');
   } else {
     hideInputError(formElement, inputElement);
-    submitButton.removeAttribute('disabled');
-    submitButton.classList.remove('popup__save-button_disabled');
   }
 };
 
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__submit');
+  toggleButtonState(inputList, buttonElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
