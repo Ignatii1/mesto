@@ -41,7 +41,7 @@ const createCard = (name, img) => {
   itemImg.src = img;
   itemImg.alt = name;
   itemName.innerText = name;
-  itemImg.addEventListener('click', (e) => {
+  itemImg.addEventListener('click', () => {
     popupPhotoImage.src = itemImg.src;
     popupPhotoImage.alt = name;
     popupPhotoDescription.innerText = itemName.innerText;
@@ -113,4 +113,54 @@ popupAddForm.addEventListener('submit', function (e) {
   inputAddLink.value = '';
 })
 
+// FORMS
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.form'));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    })
+    setEventListeners(formElement);
+  })
+}
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_active');
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const submitButton = formElement.querySelector('.popup__submit');
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.classList.remove('popup__input-error_active');
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (formElement, inputElement) => {
+  const submitButton = formElement.querySelector('.popup__submit');
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+    submitButton.setAttribute('disabled', true);
+    submitButton.classList.add('popup__save-button_disabled');
+  } else {
+    hideInputError(formElement, inputElement);
+    submitButton.removeAttribute('disabled');
+    submitButton.classList.remove('popup__save-button_disabled');
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
+
+enableValidation();
 
