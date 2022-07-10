@@ -78,6 +78,7 @@ profileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
+  validateOnOpen(popupEditForm);
 })
 
 popupCloseButton.addEventListener('click', function() {
@@ -95,9 +96,12 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
+  validateOnOpen(popupAddForm);
 })
 
 popupCloseButtonAdd.addEventListener('click', function() {
+  inputAddName.value = '';
+  inputAddLink.value = '';
   closePopup(popupAdd);
 })
 
@@ -134,7 +138,6 @@ const showInputError = (formElement, inputElement, errorMessage) => {
 
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  const submitButton = formElement.querySelector('.popup__submit');
   inputElement.classList.remove('popup__input_type_error');
   errorElement.classList.remove('popup__input-error_active');
   errorElement.textContent = '';
@@ -144,7 +147,7 @@ const checkInputValidity = (formElement, inputElement) => {
   const submitButton = formElement.querySelector('.popup__submit');
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage);
-    submitButton.setAttribute('disabled', true);
+    submitButton.setAttribute('disabled', 'disabled');
     submitButton.classList.add('popup__save-button_disabled');
   } else {
     hideInputError(formElement, inputElement);
@@ -162,5 +165,31 @@ const setEventListeners = (formElement) => {
   });
 };
 
+const validateOnOpen = (form) => {
+  const formInputs = Array.from(form.querySelectorAll('.popup__input'));
+  formInputs.forEach((formInput) => {
+    checkInputValidity(form, formInput);
+  });
+};
+
 enableValidation();
+
+// OVERLAY close on click
+
+const popups = document.querySelectorAll('.popup');
+popups.forEach((popup) => {
+  popup.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      closePopup(popup);
+    }
+  });
+});
+
+// Close on Esc
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+});
 
