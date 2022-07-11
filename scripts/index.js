@@ -10,6 +10,7 @@ const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const popupCloseButtonPhoto = document.querySelector('.popup__close-button_photo');
 const photoGrid = document.querySelector('.photo-grid');
 const cardTemplate = document.querySelector('#item__template').content;
+const cardTemplateSelector = cardTemplate.querySelector('.photo-grid__card');
 const popupPhotoImage = document.querySelector('.popup__image');
 const popupPhotoDescription = document.querySelector('.popup__description');
 const userName = document.querySelector('.profile__name');
@@ -18,7 +19,7 @@ const inputAddName = document.querySelector('.popup__add-name');
 const inputAddLink = document.querySelector('.popup__add-link');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
-const settings = {
+const validationConfig = {
   formSelector: '.form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit',
@@ -43,7 +44,7 @@ const closePopup = (popup) => {
 // RENDER new
 
 const createCard = (name, img) => {
-  const newCard = cardTemplate.querySelector('.photo-grid__card').cloneNode(true);
+  const newCard = cardTemplateSelector.cloneNode(true);
   const cardImg = newCard.querySelector('.photo-grid__card-img');
   const cardName = newCard.querySelector('.photo-grid__card-name');
   const likeButton = newCard.querySelector('.photo-grid__card-btn');
@@ -126,7 +127,7 @@ popupAddForm.addEventListener('submit', function (e) {
 
 // FORMS validation
 
-enableValidation(settings);
+enableValidation(validationConfig);
 
 // OVERLAY close on click
 
@@ -153,3 +154,4 @@ popupCloseButtonPhoto.addEventListener('click', function() {
   closePopup(popupPhoto);
 });
 
+console.log(popupCloseButtonPhoto);
