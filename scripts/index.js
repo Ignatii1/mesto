@@ -177,4 +177,9 @@ popups.forEach((popup) => {
 
 // FORMS validation
 
-// enableValidation(validationConfig);
+const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+
+formList.forEach((formElement) => {
+  const validateForm = new FormValidator(validationConfig, formElement);
+  validateForm.enableValidation(formElement);
+});
