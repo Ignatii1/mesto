@@ -1,37 +1,12 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import initialCards from './initialCards.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardAddButton = document.querySelector('.profile__add-button');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
+const popupPhoto = document.querySelector('.popup_photo');
 const popupCloseButtonEdit = document.querySelector('.popup__close-button_edit');
 const popupEditForm = document.querySelector('.popup__container');
 const popupAddForm = document.querySelector('.popup__container_add');
@@ -39,7 +14,6 @@ const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const popupCloseButtonPhoto = document.querySelector('.popup__close-button_photo');
 const photoGrid = document.querySelector('.photo-grid');
 const cardTemplate = document.querySelector('#item__template').content;
-const cardTemplateSelector = cardTemplate.querySelector('.photo-grid__card');
 const userName = document.querySelector('.profile__name');
 const userDescription = document.querySelector('.profile__description');
 const inputAddName = document.querySelector('.popup__add-name');
@@ -58,25 +32,19 @@ const validationConfig = {
 
 // FORMS validation
 
-const addFormValidation = new FormValidator(validationConfig, popupAddForm);
-const editFormValidation = new FormValidator(validationConfig, popupEditForm);
+const cardFormValidator = new FormValidator(validationConfig, popupAddForm);
+const profileFormValidator = new FormValidator(validationConfig, popupEditForm);
 
-addFormValidation.enableValidation(popupAddForm);
-editFormValidation.enableValidation(popupEditForm);
+cardFormValidator.enableValidation();
+profileFormValidator.enableValidation();
 
 //POPUP open and close
 const closeOnEsc = (e) => {
   if (e.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
-    document.removeEventListener('keydown', closeOnEsc);
   }
 }
-
-popupCloseButtonPhoto.addEventListener('click', () => {
-  const popupPhoto = document.querySelector('.popup_photo');
-  closePopup(popupPhoto);
-});
 
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
@@ -88,18 +56,37 @@ const openPopup = (popup) => {
   document.addEventListener('keydown', closeOnEsc);
 }
 
+function handlePopupOpen() {
+  const popupImage = document.querySelector('.popup__image');
+  const popupPhotoImageDescription = document.querySelector('.popup__description');
+
+  popupImage.src = this._link;
+  popupImage.alt = this._name;
+  popupPhotoImageDescription.innerText = this._name;
+  openPopup(popupPhoto);
+}
+
 // INITIAL render
 
-const addCard = (cardData) => {
-  const card = new Card(cardData, '#item__template', openPopup);
-  renderCard(card.generateCard());
+const createCard = (cardData) => {
+  return new Card(cardData, '#item__template', handlePopupOpen).generateCard();
 }
 
-const renderCard = (card) => {
+initialCards.forEach((cardData) => {
+  const card = createCard(cardData);
   photoGrid.prepend(card);
-}
+});
 
-initialCards.forEach(addCard);
+// OVERLAY close on click
+
+const popups = document.querySelectorAll('.popup');
+popups.forEach((popup) => {
+  popup.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      closePopup(popup);
+    }
+  });
+});
 
 // EDIT button
 
@@ -107,7 +94,7 @@ profileEditButton.addEventListener('click', function() {
   openPopup(popupEdit);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
-  editFormValidation.validateOnOpen(popupEditForm);
+  profileFormValidator.validateOnOpen(popupEditForm);
 })
 
 popupCloseButtonEdit.addEventListener('click', function() {
@@ -125,7 +112,7 @@ popupEditForm.addEventListener('submit', function(evt) {
 
 cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
-  addFormValidation.validateOnOpen(popupAddForm);
+  cardFormValidator.validateOnOpen(popupAddForm);
 })
 
 popupCloseButtonAdd.addEventListener('click', function() {
@@ -136,23 +123,16 @@ popupCloseButtonAdd.addEventListener('click', function() {
 
 popupAddForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  const newEl = {
+  const newCard = {
     name: inputAddName.value,
     link: inputAddLink.value
   };
-  addCard(newEl);
+  photoGrid.prepend(createCard(newCard));
   closePopup(popupAdd);
   inputAddName.value = '';
   inputAddLink.value = '';
 })
 
-// OVERLAY close on click
-
-const popups = document.querySelectorAll('.popup');
-popups.forEach((popup) => {
-  popup.addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) {
-      closePopup(popup);
-    }
-  });
+popupCloseButtonPhoto.addEventListener('click', () => {
+  closePopup(popupPhoto);
 });
