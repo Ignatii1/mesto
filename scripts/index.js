@@ -90,10 +90,17 @@ popups.forEach((popup) => {
 
 // EDIT button
 
+function editFormSubmit(evt) {
+  evt.preventDefault();
+  userName.textContent = inputName.value;
+  userDescription.textContent = inputDescription.value;
+  closePopup(popupEdit);
+}
+
 profileEditButton.addEventListener('click', function() {
-  openPopup(popupEdit);
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
+  openPopup(popupEdit);
   profileFormValidator.validateOnOpen(popupEditForm);
 })
 
@@ -101,12 +108,7 @@ popupCloseButtonEdit.addEventListener('click', function() {
   closePopup(popupEdit);
 })
 
-popupEditForm.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  userName.textContent = inputName.value;
-  userDescription.textContent = inputDescription.value;
-  closePopup(popupEdit);
-})
+popupEditForm.addEventListener('submit', editFormSubmit);
 
 // ADD button
 
@@ -116,8 +118,6 @@ cardAddButton.addEventListener('click', function() {
 })
 
 popupCloseButtonAdd.addEventListener('click', function() {
-  inputAddName.value = '';
-  inputAddLink.value = '';
   closePopup(popupAdd);
 })
 
@@ -129,8 +129,7 @@ popupAddForm.addEventListener('submit', function (e) {
   };
   photoGrid.prepend(createCard(newCard));
   closePopup(popupAdd);
-  inputAddName.value = '';
-  inputAddLink.value = '';
+  popupAddForm.reset();
 })
 
 popupCloseButtonPhoto.addEventListener('click', () => {
