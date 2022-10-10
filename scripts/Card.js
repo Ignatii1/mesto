@@ -42,7 +42,9 @@ class Card {
   }
 
   _addPopupListener() {
-    this._cardImage.addEventListener('click', this._handlePopupOpen.bind(this));
+    this._cardImage.addEventListener('click', () => {
+      this._handlePopupOpen(this._link,this._name);
+    });
   }
 
   _addEventListeners() {

@@ -12,8 +12,9 @@ const popupEditForm = document.querySelector('.popup__container');
 const popupAddForm = document.querySelector('.popup__container_add');
 const popupCloseButtonAdd = document.querySelector('.popup__close-button_add');
 const popupCloseButtonPhoto = document.querySelector('.popup__close-button_photo');
+const popupImage = document.querySelector('.popup__image');
+const popupPhotoImageDescription = document.querySelector('.popup__description');
 const photoGrid = document.querySelector('.photo-grid');
-const cardTemplate = document.querySelector('#item__template').content;
 const userName = document.querySelector('.profile__name');
 const userDescription = document.querySelector('.profile__description');
 const inputAddName = document.querySelector('.popup__add-name');
@@ -56,20 +57,18 @@ const openPopup = (popup) => {
   document.addEventListener('keydown', closeOnEsc);
 }
 
-function handlePopupOpen() {
-  const popupImage = document.querySelector('.popup__image');
-  const popupPhotoImageDescription = document.querySelector('.popup__description');
-
-  popupImage.src = this._link;
-  popupImage.alt = this._name;
-  popupPhotoImageDescription.innerText = this._name;
+function handlePopupOpen(link, name) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupPhotoImageDescription.innerText = name;
   openPopup(popupPhoto);
 }
 
 // INITIAL render
 
 const createCard = (cardData) => {
-  return new Card(cardData, '#item__template', handlePopupOpen).generateCard();
+  const card = new Card(cardData, '#item__template', handlePopupOpen);
+  return card.generateCard();
 }
 
 initialCards.forEach((cardData) => {
@@ -90,7 +89,7 @@ popups.forEach((popup) => {
 
 // EDIT button
 
-function editFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   userName.textContent = inputName.value;
   userDescription.textContent = inputDescription.value;
@@ -101,20 +100,20 @@ profileEditButton.addEventListener('click', function() {
   inputName.value = userName.textContent;
   inputDescription.value = userDescription.textContent;
   openPopup(popupEdit);
-  profileFormValidator.validateOnOpen(popupEditForm);
+  profileFormValidator.validateOnOpen();
 })
 
 popupCloseButtonEdit.addEventListener('click', function() {
   closePopup(popupEdit);
 })
 
-popupEditForm.addEventListener('submit', editFormSubmit);
+popupEditForm.addEventListener('submit', handleProfileFormSubmit);
 
 // ADD button
 
 cardAddButton.addEventListener('click', function() {
   openPopup(popupAdd);
-  cardFormValidator.validateOnOpen(popupAddForm);
+  cardFormValidator.validateOnOpen();
 })
 
 popupCloseButtonAdd.addEventListener('click', function() {
