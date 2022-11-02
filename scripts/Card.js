@@ -1,11 +1,11 @@
 export {Card};
 
 class Card {
-  constructor(data, templateSelector, handlePopupOpen) {
+  constructor(data, templateSelector, handleCardClick) {
     this._templateSelector = templateSelector;
     this._name = data.name;
     this._link = data.link;
-    this._handlePopupOpen = handlePopupOpen;
+    this._handleCardClick = handleCardClick;
 
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.photo-grid__card-img');
@@ -43,7 +43,7 @@ class Card {
 
   _addPopupListener() {
     this._cardImage.addEventListener('click', () => {
-      this._handlePopupOpen(this._link,this._name);
+      this._handleCardClick(this._link,this._name);
     });
   }
 
