@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/Ignatii1/mesto/issues"
   },
-  "homepage": "https://github.com/Ignatii1/mesto",
+  "homepage": "https://github.com/Ignatii1/mesto#readme",
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
