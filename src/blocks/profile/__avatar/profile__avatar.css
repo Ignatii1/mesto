@@ -2,7 +2,8 @@
   grid-area: avatar;
   border-radius: 50%;
   max-width: 120px;
-  max-height: 120px;
+  min-height: 120px;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 321px) {

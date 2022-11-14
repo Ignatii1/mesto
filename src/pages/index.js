@@ -2,7 +2,6 @@ import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import initialCards from '../components/initialCards.js';
 import Section from '../components/Section.js';
-import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -16,8 +15,21 @@ const popupImage = document.querySelector('.popup__image');
 const popupPhotoImageDescription = document.querySelector('.popup__description');
 const userName = document.querySelector('.profile__name');
 const userDescription = document.querySelector('.profile__description');
+const userAvatar = document.querySelector('.profile__avatar');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
+  headers: {
+    authorization: '97978610-38d0-466f-b3ad-55157d97440d'
+  }
+})
+  .then(res => res.json())
+  .then((result) => {
+    userName.textContent = result.name;
+    userDescription.textContent = result.about;
+    userAvatar.src = result.avatar;
+  });
 
 const validationConfig = {
   formSelector: '.form',
