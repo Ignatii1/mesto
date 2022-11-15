@@ -1,6 +1,5 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import initialCards from '../components/initialCards.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -18,6 +17,7 @@ const userDescription = document.querySelector('.profile__description');
 const userAvatar = document.querySelector('.profile__avatar');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
+let initialCards = [];
 
 fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
   headers: {
@@ -29,6 +29,18 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
     userName.textContent = result.name;
     userDescription.textContent = result.about;
     userAvatar.src = result.avatar;
+  });
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
+  headers: {
+    authorization: '97978610-38d0-466f-b3ad-55157d97440d'
+  }
+})
+  .then(res => res.json())
+  .then((result) => {
+    console.log(cardList);
+    initialCards = result;
+    cardList.renderItems(initialCards);
   });
 
 const validationConfig = {
@@ -59,8 +71,7 @@ function renderer(item) {
 
 const userInfo = new UserInfo('.profile__name', '.profile__description');
 
-const cardList = new Section({ items: initialCards, renderer }, '.photo-grid');
-cardList.renderItems();
+const cardList = new Section({ renderer }, '.photo-grid');
 
 const popupEditProfile = new PopupWithForm('.popup_edit', ({ name, description }) => {
   userInfo.setUserInfo({ name, description });
