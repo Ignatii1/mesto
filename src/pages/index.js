@@ -17,7 +17,14 @@ const userDescription = document.querySelector('.profile__description');
 const userAvatar = document.querySelector('.profile__avatar');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
-let initialCards = [];
+const validationConfig = {
+  formSelector: '.form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input-error_active',
+  errorClass: 'popup__input_type_error'
+}
 
 fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
   headers: {
@@ -31,26 +38,18 @@ fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
     userAvatar.src = result.avatar;
   });
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
-  headers: {
-    authorization: '97978610-38d0-466f-b3ad-55157d97440d'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    console.log(cardList);
-    initialCards = result;
-    cardList.renderItems(initialCards);
-  });
-
-const validationConfig = {
-  formSelector: '.form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input-error_active',
-  errorClass: 'popup__input_type_error'
+function renderServerCards() {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
+    headers: {
+      authorization: '97978610-38d0-466f-b3ad-55157d97440d'
+    }
+  })
+    .then(res => res.json())
+    .then((result) => {
+      cardList.renderItems(result.reverse());
+    });
 }
+renderServerCards();
 
 function handleCardClick(link, name) {
   popupImage.src = link;
@@ -69,6 +68,19 @@ function renderer(item) {
   cardList.addItem(card);
 }
 
+function handleAddSubmit(inputs) {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
+    method: 'POST',
+    headers: {
+      authorization: '97978610-38d0-466f-b3ad-55157d97440d',
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(inputs)
+  })
+    .then(res => res.json())
+    .then(res => cardList.addItem(createCard(res)));
+}
+
 const userInfo = new UserInfo('.profile__name', '.profile__description');
 
 const cardList = new Section({ renderer }, '.photo-grid');
@@ -78,9 +90,7 @@ const popupEditProfile = new PopupWithForm('.popup_edit', ({ name, description }
 });
 popupEditProfile.setEventListeners();
 
-const popupAddCard = new PopupWithForm('.popup_add', (inputs) => {
-  cardList.addItem(createCard(inputs));
-});
+const popupAddCard = new PopupWithForm('.popup_add', handleAddSubmit);
 popupAddCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup_photo');
@@ -88,12 +98,12 @@ popupWithImage.setEventListeners();
 
 // EVENT LISTENERS ADD
 
-cardAddButton.addEventListener('click', function() {
+cardAddButton.addEventListener('click', function () {
   popupAddCard.open();
   cardFormValidator.validateOnOpen();
 })
 
-profileEditButton.addEventListener('click', function() {
+profileEditButton.addEventListener('click', function () {
   const profileInputValues = userInfo.getUserInfo();
   inputName.value = profileInputValues.name;
   inputDescription.value = profileInputValues.description;
