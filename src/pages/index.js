@@ -5,7 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import '../pages/index.css';
-import Popup from '../components/Popup.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardAddButton = document.querySelector('.profile__add-button');
@@ -52,14 +52,12 @@ function renderServerCards() {
 }
 renderServerCards();
 
-function handleDeleteCard() {
-  popupConfirmation.open();
+function handleDeleteCard(card) {
+  popupConfirmation.open(card);
 }
 
-function handleConfirmSubmit(e) {
-  console.log(e);
-  this._element.remove();
-  this._element = null;
+function handleConfirmSubmit(card) {
+  this._card.remove();
 }
 
 function handleCardClick(link, name) {
@@ -107,7 +105,7 @@ popupAddCard.setEventListeners();
 const popupWithImage = new PopupWithImage('.popup_photo');
 popupWithImage.setEventListeners();
 
-const popupConfirmation = new PopupWithForm('.popup_confirmation', handleConfirmSubmit);
+const popupConfirmation = new PopupWithConfirmation('.popup_confirmation', handleConfirmSubmit);
 popupConfirmation.setEventListeners();
 
 // EVENT LISTENERS ADD

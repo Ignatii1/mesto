@@ -6,6 +6,7 @@ class Card {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
+    this._owner = data.owner;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
 
@@ -37,11 +38,15 @@ class Card {
   }
 
   _addLikeButtonListener() {
-    this._likeButton.addEventListener('click', this._handleLikeCard.bind(this));
+    this._likeButton.addEventListener('click', () => {
+      this._handleLikeCard();
+    })
   }
 
   _addDeleteButtonListener() {
-    this._deleteButton.addEventListener('click', this._handleDeleteCard.bind(this));
+    this._deleteButton.addEventListener('click', () => {
+      this._handleDeleteCard(this._element)
+    })
   }
 
   _addPopupListener() {
