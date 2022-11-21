@@ -5,6 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import '../pages/index.css';
+import Popup from '../components/Popup.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardAddButton = document.querySelector('.profile__add-button');
@@ -51,6 +52,16 @@ function renderServerCards() {
 }
 renderServerCards();
 
+function handleDeleteCard() {
+  popupConfirmation.open();
+}
+
+function handleConfirmSubmit(e) {
+  console.log(e);
+  this._element.remove();
+  this._element = null;
+}
+
 function handleCardClick(link, name) {
   popupImage.src = link;
   popupImage.alt = name;
@@ -59,7 +70,7 @@ function handleCardClick(link, name) {
 }
 
 function createCard(item) {
-  const card = new Card(item, '#item__template', handleCardClick);
+  const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard);
   return card.generateCard();
 }
 
@@ -95,6 +106,9 @@ popupAddCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup_photo');
 popupWithImage.setEventListeners();
+
+const popupConfirmation = new PopupWithForm('.popup_confirmation', handleConfirmSubmit);
+popupConfirmation.setEventListeners();
 
 // EVENT LISTENERS ADD
 

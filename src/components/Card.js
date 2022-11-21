@@ -1,12 +1,13 @@
 export { Card };
 
 class Card {
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteCard) {
     this._templateSelector = templateSelector;
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteCard = handleDeleteCard;
 
     this._element = this._getTemplate();
     this._likesNumber = this._element.querySelector('.photo-grid__like-count');
@@ -33,11 +34,6 @@ class Card {
     } else {
       this._likesNumber.innerText -= 1;
     }
-  }
-
-  _handleDeleteCard() {
-    this._element.remove();
-    this._element = null;
   }
 
   _addLikeButtonListener() {
