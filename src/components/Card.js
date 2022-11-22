@@ -1,6 +1,4 @@
-export { Card };
-
-class Card {
+export default class Card {
   constructor(data, templateSelector, handleCardClick, handleDeleteCard) {
     this._templateSelector = templateSelector;
     this._name = data.name;

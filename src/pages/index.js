@@ -1,56 +1,48 @@
-import { Card } from '../components/Card.js';
-import { FormValidator } from '../components/FormValidator.js';
-import Section from '../components/Section.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import PopupWithForm from '../components/PopupWithForm.js';
-import UserInfo from '../components/UserInfo.js';
+import {
+  profileEditButton,
+  cardAddButton,
+  popupEditForm,
+  popupAddForm,
+  popupImage,
+  popupPhotoImageDescription,
+  userName,
+  userDescription,
+  userAvatar,
+  inputName,
+  inputDescription,
+  validationConfig
+} from '../utils/constants.js';
+
 import '../pages/index.css';
+import Api from '../components/Api.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
+import UserInfo from '../components/UserInfo.js';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 
-const profileEditButton = document.querySelector('.profile__edit-button');
-const cardAddButton = document.querySelector('.profile__add-button');
-const popupEditForm = document.querySelector('.popup__container');
-const popupAddForm = document.querySelector('.popup__container_add');
-const popupImage = document.querySelector('.popup__image');
-const popupPhotoImageDescription = document.querySelector('.popup__description');
-const userName = document.querySelector('.profile__name');
-const userDescription = document.querySelector('.profile__description');
-const userAvatar = document.querySelector('.profile__avatar');
-const inputName = document.querySelector('.popup__input-name');
-const inputDescription = document.querySelector('.popup__input-description');
-const validationConfig = {
-  formSelector: '.form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input-error_active',
-  errorClass: 'popup__input_type_error'
-}
-
-fetch('https://mesto.nomoreparties.co/v1/cohort-52/users/me', {
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54',
   headers: {
-    authorization: '97978610-38d0-466f-b3ad-55157d97440d'
+    authorization: '5669c063-4c85-4d28-8ba4-8813e38df69e',
+    'Content-Type': 'application/json'
   }
 })
-  .then(res => res.json())
-  .then((result) => {
-    userName.textContent = result.name;
-    userDescription.textContent = result.about;
-    userAvatar.src = result.avatar;
-  });
 
-function renderServerCards() {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
-    headers: {
-      authorization: '97978610-38d0-466f-b3ad-55157d97440d'
-    }
-  })
-    .then(res => res.json())
-    .then((result) => {
-      cardList.renderItems(result.reverse());
-    });
-}
-renderServerCards();
+Promise.all([])
+
+// const userInfo = api.getUserInfo();
+// console.log(userInformation);
+// // userName.textContent = result.name;
+// // userDescription.textContent = result.about;
+// // userAvatar.src = result.avatar;
+
+// function renderServerCards() {
+
+// }
+// renderServerCards();
 
 function handleDeleteCard(card) {
   popupConfirmation.open(card);
@@ -78,10 +70,10 @@ function renderer(item) {
 }
 
 function handleAddSubmit(inputs) {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-52/cards', {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-54/cards', {
     method: 'POST',
     headers: {
-      authorization: '97978610-38d0-466f-b3ad-55157d97440d',
+      authorization: '5669c063-4c85-4d28-8ba4-8813e38df69e',
       'Content-type': 'application/json'
     },
     body: JSON.stringify(inputs)
