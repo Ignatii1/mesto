@@ -4,29 +4,30 @@ export default class Api {
     this._headers = options.headers;
   }
 
+  _checkRes(res) {
+    return res.ok ? res.json() : console.log(res.status);
+  }
+
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-    })
-      .then(res => res.json())
-      .then((result) => {
-        return result;
-      })
-      .catch(err => console.log(err));
+    }).then(res => this._checkRes(res))
   }
 
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
-    headers: this._headers
-  })
-    .then(res => res.json())
-    .then((result) => {
-      cardList.renderItems(result.reverse());
-    });
+      headers: this._headers
+    }).then(res => this._checkRes(res))
   }
 
-  deleteCard() {
-
+  updateProfile({name, description}) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        about: description
+      })
+    }).then(res => this._checkRes(res));
   }
-
 }
