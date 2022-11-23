@@ -43,7 +43,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userId = profileInfo._id;
 
     console.log(cardsArray);
-    cardList.renderItems(cardsArray);
+    cardList.renderItems(cardsArray.reverse());
   })
   .catch(err => console.log(err));
 
@@ -64,6 +64,13 @@ function handleEditProfile({ name, description }) {
     });
 }
 
+function handleAddSubmit(inputs) {
+  api.postCard(inputs)
+    .then(res => {
+      renderer(res);
+    })
+}
+
 function handleCardClick(link, name) {
   popupImage.src = link;
   popupImage.alt = name;
@@ -74,19 +81,6 @@ function handleCardClick(link, name) {
 function renderer(item) {
   const card = createCard(item);
   cardList.addItem(card);
-}
-
-function handleAddSubmit(inputs) {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-54/cards', {
-    method: 'POST',
-    headers: {
-      authorization: '5669c063-4c85-4d28-8ba4-8813e38df69e',
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify(inputs)
-  })
-    .then(res => res.json())
-    .then(res => cardList.addItem(createCard(res)));
 }
 
 function createCard(item) {
