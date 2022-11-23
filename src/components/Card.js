@@ -1,10 +1,12 @@
 export default class Card {
-  constructor(data, templateSelector, handleCardClick, handleDeleteCard) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteCard, userId) {
     this._templateSelector = templateSelector;
+    this._userId = userId;
+    this._cardId = data._id;
+    this._ownerId = data.owner._id;
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
-    this._owner = data.owner;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
 
@@ -65,6 +67,10 @@ export default class Card {
     this._cardImage.alt = this._name;
     this._cardName.innerText = this._name;
     this._likesNumber.innerText = this._likes.length;
+    this._deleteBtn = this._element.querySelector('.photo-grid__delete-btn');
+    if (this._ownerId !== this._userId) {
+      this._deleteBtn.classList.add('photo-grid__delete-btn_hidden');
+    }
 
     this._element = this._addEventListeners(this._element);
     return this._element;

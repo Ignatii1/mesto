@@ -12,6 +12,7 @@
 @import url(../blocks/photo-grid/photo-grid.css);
 @import url(../blocks/photo-grid/__card/photo-grid__card.css);
 @import url(../blocks/photo-grid/__delete-btn/photo-grid__delete-btn.css);
+@import url(../blocks/photo-grid/__delete-btn/_hidden/photo-grid__delete-btn_hidden.css);
 @import url(../blocks/photo-grid/__card-img/photo-grid__card-img.css);
 @import url(../blocks/photo-grid/__item-description/photo-grid__item-description.css);
 @import url(../blocks/photo-grid/__card-name/photo-grid__card-name.css);

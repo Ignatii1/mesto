@@ -84,7 +84,7 @@ function renderer(item) {
 }
 
 function createCard(item) {
-  const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard);
+  const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard, userId);
   return card.generateCard();
 }
 
