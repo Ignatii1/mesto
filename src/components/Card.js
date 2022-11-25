@@ -54,14 +54,12 @@ export default class Card {
     return this._element;
   }
 
+  setLikeCount(likesNumber) {
+    this._likesNumber.innerText = likesNumber;
+  }
+
   isLiked() {
-    this._likes.forEach(item => {
-      console.log(item._id, this._userId);
-      if (item._id == this._userId) {
-        console.log('kinda workds')
-        return true;
-      }
-    });
+    return Boolean(this._likes.find(like => like._id === this._userId));
   }
 
   updateLikes() {
@@ -84,11 +82,7 @@ export default class Card {
       this._deleteBtn.classList.add('photo-grid__delete-btn_hidden');
     }
 
-    console.log(this.isLiked())
-
-    if (this.isLiked()) {
-      console.log('workedddd');
-    }
+    if (this.isLiked()) { this._likeButton.classList.add('photo-grid__card-btn_liked')}
 
     this._element = this._addEventListeners(this._element);
     return this._element;

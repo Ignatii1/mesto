@@ -80,17 +80,19 @@ function handleCardClick(link, name) {
 }
 
 function handleLikeCard() {
-  console.log(this._likeButton);
   if (this.isLiked()) {
     api.removeLike(this._cardId)
-      .then(data => {
-        this.updateLikeCount(data.likes.length);
-        console.log(data.likes.length);
+      .then(res => {
+        this.setLikeCount(res.likes.length);
+        this._likes = res.likes;
       });
     this._likeButton.classList.remove('photo-grid__card-btn_liked')
   } else {
     api.addLike(this._cardId)
-      .then(res => console.log(res));
+      .then(res => {
+        this.setLikeCount(res.likes.length);
+        this._likes = res.likes;
+      });
     this._likeButton.classList.add('photo-grid__card-btn_liked')
   }
 }
