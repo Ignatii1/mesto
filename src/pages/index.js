@@ -35,33 +35,34 @@ const api = new Api({
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(res => {
-    console.log(res);
     const [profileInfo, cardsArray] = res;
     userName.textContent = profileInfo.name;
     userDescription.textContent = profileInfo.about;
     userAvatar.src = profileInfo.avatar;
     userId = profileInfo._id;
 
-    console.log(cardsArray);
     cardList.renderItems(cardsArray.reverse());
   })
   .catch(err => console.log(err));
 
 // HANDLERS
 
-function handleDeleteCard(card) {
-  popupConfirmation.open(card);
+function handleDeleteCard(cardId, card) {
+  popupConfirmation.open(cardId, card);
 }
 
 function handleConfirmSubmit() {
-  console.log(this._card);
+  api.deleteCard(this._cardId)
+    .then(() => {
+      this._card.remove();
+      this._card = null;
+    });
 }
 
 function handleEditProfile({ name, description }) {
-  api.updateProfile({name, description})
-    .then(res => {
-      userInfo.setUserInfo(res)
-    });
+  api.updateProfile({ name, description })
+    .then(res => res.json())
+    .then(res => console.log(res));
 }
 
 function handleAddSubmit(inputs) {
@@ -78,13 +79,30 @@ function handleCardClick(link, name) {
   popupWithImage.open(link, name);
 }
 
+function handleLikeCard() {
+  console.log(this._likeButton);
+  if (this.isLiked()) {
+    api.removeLike(this._cardId)
+      .then(data => {
+        this.updateLikeCount(data.likes.length);
+        console.log(data.likes.length);
+      });
+    this._likeButton.classList.remove('photo-grid__card-btn_liked')
+  } else {
+    api.addLike(this._cardId)
+      .then(res => console.log(res));
+    this._likeButton.classList.add('photo-grid__card-btn_liked')
+  }
+}
+
+
 function renderer(item) {
   const card = createCard(item);
   cardList.addItem(card);
 }
 
 function createCard(item) {
-  const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard, userId);
+  const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard, handleLikeCard, userId);
   return card.generateCard();
 }
 

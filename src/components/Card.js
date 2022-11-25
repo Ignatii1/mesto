@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, templateSelector, handleCardClick, handleDeleteCard, userId) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteCard, handleLikeCard, userId) {
     this._templateSelector = templateSelector;
     this._userId = userId;
     this._cardId = data._id;
@@ -7,6 +7,7 @@ export default class Card {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
+    this._handleLikeCard = handleLikeCard;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
 
@@ -28,15 +29,6 @@ export default class Card {
     return cardElement;
   }
 
-  _handleLikeCard() {
-    this._likeButton.classList.toggle('photo-grid__card-btn_liked');
-    if (this._likeButton.classList.contains("photo-grid__card-btn_liked")) {
-      this._likesNumber.innerText = parseInt(this._likesNumber.innerText) + 1;
-    } else {
-      this._likesNumber.innerText -= 1;
-    }
-  }
-
   _addLikeButtonListener() {
     this._likeButton.addEventListener('click', () => {
       this._handleLikeCard();
@@ -45,7 +37,7 @@ export default class Card {
 
   _addDeleteButtonListener() {
     this._deleteButton.addEventListener('click', () => {
-      this._handleDeleteCard(this._element)
+      this._handleDeleteCard(this._cardId, this._element);
     })
   }
 
@@ -62,14 +54,40 @@ export default class Card {
     return this._element;
   }
 
+  isLiked() {
+    this._likes.forEach(item => {
+      console.log(item._id, this._userId);
+      if (item._id == this._userId) {
+        console.log('kinda workds')
+        return true;
+      }
+    });
+  }
+
+  updateLikes() {
+
+  }
+
+  deleteCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
   generateCard() {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardName.innerText = this._name;
     this._likesNumber.innerText = this._likes.length;
     this._deleteBtn = this._element.querySelector('.photo-grid__delete-btn');
+
     if (this._ownerId !== this._userId) {
       this._deleteBtn.classList.add('photo-grid__delete-btn_hidden');
+    }
+
+    console.log(this.isLiked())
+
+    if (this.isLiked()) {
+      console.log('workedddd');
     }
 
     this._element = this._addEventListeners(this._element);
