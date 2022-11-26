@@ -9,6 +9,7 @@ import {
   userName,
   userDescription,
   userAvatar,
+  userAvatarImage,
   inputName,
   inputDescription,
   validationConfig
@@ -39,7 +40,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     const [profileInfo, cardsArray] = res;
     userName.textContent = profileInfo.name;
     userDescription.textContent = profileInfo.about;
-    userAvatar.src = profileInfo.avatar;
+    userAvatarImage.src = profileInfo.avatar;
     userId = profileInfo._id;
 
     cardList.renderItems(cardsArray.reverse());
@@ -61,23 +62,32 @@ function handleConfirmSubmit() {
 }
 
 function handleEditProfile({ name, description }) {
+  this._submitButton.textContent = "Сохранение...";
   api.updateProfile({ name, description })
     .then(res => {
       userName.textContent = res.name;
       userDescription.textContent = res.about;
-    });
+    })
+    .catch((err) => console.log(err))
+    .finally(() => this._submitButton.textContent = "Сохранить");
 }
 
 function handleAddSubmit(inputs) {
+  this._submitButton.textContent = "Сохранение...";
   api.postCard(inputs)
     .then(res => {
       renderer(res);
     })
+    .catch((err) => console.log(err))
+    .finally(() => this._submitButton.textContent = "Сохранить");
 }
 
 function handleUpdateAvatar({ avatar }) {
+  this._submitButton.textContent = "Сохранение...";
   api.updateAvatar(avatar)
-    .then(res => userAvatar.src = res.avatar);
+    .then(res => userAvatarImage.src = res.avatar)
+    .catch((err) => console.log(err))
+    .finally(() => this._submitButton.textContent = "Сохранить");
 }
 
 function handleCardClick(link, name) {

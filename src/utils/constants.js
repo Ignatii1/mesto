@@ -7,7 +7,8 @@ const popupImage = document.querySelector('.popup__image');
 const popupPhotoImageDescription = document.querySelector('.popup__description');
 const userName = document.querySelector('.profile__name');
 const userDescription = document.querySelector('.profile__description');
-const userAvatar = document.querySelector('.profile__avatar');
+const userAvatarImage = document.querySelector('.profile__avatar');
+const userAvatar = document.querySelector('.profile__avatar-container');
 const inputName = document.querySelector('.popup__input-name');
 const inputDescription = document.querySelector('.popup__input-description');
 
@@ -31,6 +32,7 @@ export {
   userName,
   userDescription,
   userAvatar,
+  userAvatarImage,
   inputName,
   inputDescription,
   validationConfig
