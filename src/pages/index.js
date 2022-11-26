@@ -2,6 +2,7 @@ import {
   profileEditButton,
   cardAddButton,
   popupEditForm,
+  popupAvatarForm,
   popupAddForm,
   popupImage,
   popupPhotoImageDescription,
@@ -61,8 +62,10 @@ function handleConfirmSubmit() {
 
 function handleEditProfile({ name, description }) {
   api.updateProfile({ name, description })
-    .then(res => res.json())
-    .then(res => console.log(res));
+    .then(res => {
+      userName.textContent = res.name;
+      userDescription.textContent = res.about;
+    });
 }
 
 function handleAddSubmit(inputs) {
@@ -70,6 +73,11 @@ function handleAddSubmit(inputs) {
     .then(res => {
       renderer(res);
     })
+}
+
+function handleUpdateAvatar({ avatar }) {
+  api.updateAvatar(avatar)
+    .then(res => userAvatar.src = res.avatar);
 }
 
 function handleCardClick(link, name) {
@@ -114,21 +122,21 @@ const cardList = new Section({ renderer }, '.photo-grid');
 
 // POPUPS
 
-const popupEditProfile = new PopupWithForm('.popup_edit', handleEditProfile);
-
 const popupAddCard = new PopupWithForm('.popup_add', handleAddSubmit);
-
 const popupWithImage = new PopupWithImage('.popup_photo');
-
+const popupEditProfile = new PopupWithForm('.popup_edit', handleEditProfile);
 const popupConfirmation = new PopupWithConfirmation('.popup_confirmation', handleConfirmSubmit);
+const popupAvatarUpdate = new PopupWithForm('.popup_updateAvatar', handleUpdateAvatar);
 
 // FORMS validation
 
 const cardFormValidator = new FormValidator(validationConfig, popupAddForm);
 const profileFormValidator = new FormValidator(validationConfig, popupEditForm);
+const avatarFormValidator = new FormValidator(validationConfig, popupAvatarForm);
 
 cardFormValidator.enableValidation();
 profileFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 
 // Event Listeners
 
@@ -136,13 +144,19 @@ popupAddCard.setEventListeners();
 popupEditProfile.setEventListeners();
 popupWithImage.setEventListeners();
 popupConfirmation.setEventListeners();
+popupAvatarUpdate.setEventListeners();
 
-cardAddButton.addEventListener('click', function () {
+userAvatar.addEventListener('click', function() {
+  avatarFormValidator.validateOnOpen();
+  popupAvatarUpdate.open();
+})
+
+cardAddButton.addEventListener('click', function() {
   popupAddCard.open();
   cardFormValidator.validateOnOpen();
 })
 
-profileEditButton.addEventListener('click', function () {
+profileEditButton.addEventListener('click', function() {
   const profileInputValues = userInfo.getUserInfo();
   inputName.value = profileInputValues.name;
   inputDescription.value = profileInputValues.description;

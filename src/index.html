@@ -19,8 +19,9 @@
 
   <main class="main">
     <section class="profile">
-      <img src="<%=require('./images/Avatar.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
-
+      <div class="profile__avatar-container">
+        <img src="<%=require('./images/liked.svg')%>" alt="Аватар пользователя" class="profile__avatar">
+      </div>
       <div class="profile__name-container">
         <h1 class="profile__name"></h1>
         <button class="profile__edit-button" type="button" aria-label="Edit"></button>
@@ -70,9 +71,9 @@
   <div class="popup popup_updateAvatar">
     <div class="popup__content">
       <button class="popup__close-button popup__close-button_edit" type="button" aria-label="Close"></button>
-      <form class="form popup__container" novalidate>
+      <form class="form popup__container popup__container-avatar" novalidate>
         <h2 class="popup__title">Обновить аватар</h2>
-        <input type="url" class="popup__input popup__add-link" name="link" id="link-input"
+        <input type="url" class="popup__input popup__add-link" name="avatar" id="link-input"
           placeholder="Ссылка на картинку" required>
         <span class="popup__input-error link-input-error"></span>
         <button class="popup__submit popup__save-button" type="submit">Сохранить</button>
