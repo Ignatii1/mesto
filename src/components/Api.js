@@ -20,7 +20,7 @@ export default class Api {
     }).then(res => this._checkRes(res))
   }
 
-  updateProfile({name, description}) {
+  updateProfile({ name, description }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
@@ -61,5 +61,15 @@ export default class Api {
       method: "DELETE",
       headers: this._headers
     }).then(res => this._checkRes(res))
+  }
+
+  updateAvatar(avatarUrl) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: avatarUrl
+      })
+    }).then(res => this._checkRes(res));
   }
 }
