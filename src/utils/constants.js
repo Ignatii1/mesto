@@ -29,10 +29,7 @@ export {
   popupAvatarForm,
   popupImage,
   popupPhotoImageDescription,
-  userName,
-  userDescription,
   userAvatar,
-  userAvatarImage,
   inputName,
   inputDescription,
   validationConfig

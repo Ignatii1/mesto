@@ -6,10 +6,7 @@ import {
   popupAddForm,
   popupImage,
   popupPhotoImageDescription,
-  userName,
-  userDescription,
   userAvatar,
-  userAvatarImage,
   inputName,
   inputDescription,
   validationConfig
@@ -38,10 +35,8 @@ const api = new Api({
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(res => {
     const [profileInfo, cardsArray] = res;
-    userName.textContent = profileInfo.name;
-    userDescription.textContent = profileInfo.about;
-    userAvatarImage.src = profileInfo.avatar;
-    userId = profileInfo._id;
+    userInfo.setUserInfo(profileInfo);
+    userId = userInfo.getId();
 
     cardList.renderItems(cardsArray.reverse());
   })
@@ -54,19 +49,23 @@ function handleDeleteCard(cardId, card) {
 }
 
 function handleConfirmSubmit() {
+  this._submitButton.textContent = 'Удаление...';
   api.deleteCard(this._cardId)
     .then(() => {
       this._card.remove();
       this._card = null;
-    });
+      popupConfirmation.close();
+    })
+    .finally(() => this._submitButton.textContent = 'Да');
+
 }
 
 function handleEditProfile({ name, description }) {
   this._submitButton.textContent = "Сохранение...";
   api.updateProfile({ name, description })
     .then(res => {
-      userName.textContent = res.name;
-      userDescription.textContent = res.about;
+      userInfo.setUserInfo(res);
+      popupEditProfile.close();
     })
     .catch((err) => console.log(err))
     .finally(() => this._submitButton.textContent = "Сохранить");
@@ -77,6 +76,7 @@ function handleAddSubmit(inputs) {
   api.postCard(inputs)
     .then(res => {
       renderer(res);
+      popupAddCard.close();
     })
     .catch((err) => console.log(err))
     .finally(() => this._submitButton.textContent = "Сохранить");
@@ -85,7 +85,10 @@ function handleAddSubmit(inputs) {
 function handleUpdateAvatar({ avatar }) {
   this._submitButton.textContent = "Сохранение...";
   api.updateAvatar(avatar)
-    .then(res => userAvatarImage.src = res.avatar)
+    .then(res => {
+      userInfo.setAvatar(res.avatar);
+      popupAvatarUpdate.close();
+    })
     .catch((err) => console.log(err))
     .finally(() => this._submitButton.textContent = "Сохранить");
 }
@@ -126,7 +129,7 @@ function createCard(item) {
   return card.generateCard();
 }
 
-const userInfo = new UserInfo('.profile__name', '.profile__description');
+const userInfo = new UserInfo('.profile__name', '.profile__description', '.profile__avatar');
 
 const cardList = new Section({ renderer }, '.photo-grid');
 
