@@ -5,12 +5,7 @@ const popupAddForm = document.querySelector('.popup__container_add');
 const popupAvatarForm = document.querySelector('.popup__container-avatar');
 const popupImage = document.querySelector('.popup__image');
 const popupPhotoImageDescription = document.querySelector('.popup__description');
-const userName = document.querySelector('.profile__name');
-const userDescription = document.querySelector('.profile__description');
-const userAvatarImage = document.querySelector('.profile__avatar');
 const userAvatar = document.querySelector('.profile__avatar-container');
-const inputName = document.querySelector('.popup__input-name');
-const inputDescription = document.querySelector('.popup__input-description');
 
 const validationConfig = {
   formSelector: '.form',
@@ -30,7 +25,5 @@ export {
   popupImage,
   popupPhotoImageDescription,
   userAvatar,
-  inputName,
-  inputDescription,
   validationConfig
 }

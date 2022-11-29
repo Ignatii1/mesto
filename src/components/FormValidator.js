@@ -53,9 +53,15 @@ export default class FormValidator {
     });
   }
 
+  resetValidation() {
+    this._toggleButtonState();
+      this._inputList.forEach((inputElement) => {
+        this._hideInputError(inputElement);
+    });
+  }
+
   validateOnOpen = () => {
-    const formInputs = Array.from(this._form.querySelectorAll(this._validationConfig.inputSelector));
-    this._toggleButtonState(formInputs);
+    this._toggleButtonState();
   }
 
   enableValidation() {

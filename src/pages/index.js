@@ -7,8 +7,6 @@ import {
   popupImage,
   popupPhotoImageDescription,
   userAvatar,
-  inputName,
-  inputDescription,
   validationConfig
 } from '../utils/constants.js';
 
@@ -49,48 +47,47 @@ function handleDeleteCard(cardId, card) {
 }
 
 function handleConfirmSubmit() {
-  this._submitButton.textContent = 'Удаление...';
+  popupConfirmation.renderLoading(true);
   api.deleteCard(this._cardId)
     .then(() => {
       this._card.remove();
       this._card = null;
       popupConfirmation.close();
     })
-    .finally(() => this._submitButton.textContent = 'Да');
-
+  .finally(() => popupConfirmation.renderLoading(false));
 }
 
 function handleEditProfile({ name, description }) {
-  this._submitButton.textContent = "Сохранение...";
+  popupEditProfile.renderLoading(true);
   api.updateProfile({ name, description })
     .then(res => {
       userInfo.setUserInfo(res);
       popupEditProfile.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => this._submitButton.textContent = "Сохранить");
+    .finally(() => popupEditProfile.renderLoading(false));
 }
 
 function handleAddSubmit(inputs) {
-  this._submitButton.textContent = "Сохранение...";
+  popupAddCard.renderLoading(true, "Создание...");
   api.postCard(inputs)
     .then(res => {
       renderer(res);
       popupAddCard.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => this._submitButton.textContent = "Сохранить");
+    .finally(() => popupAddCard.renderLoading(false));
 }
 
 function handleUpdateAvatar({ avatar }) {
-  this._submitButton.textContent = "Сохранение...";
+  popupAvatarUpdate.renderLoading(true);
   api.updateAvatar(avatar)
     .then(res => {
       userInfo.setAvatar(res.avatar);
       popupAvatarUpdate.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => this._submitButton.textContent = "Сохранить");
+    .finally(() => popupAvatarUpdate.renderLoading(false));
 }
 
 function handleCardClick(link, name) {
@@ -160,19 +157,21 @@ popupConfirmation.setEventListeners();
 popupAvatarUpdate.setEventListeners();
 
 userAvatar.addEventListener('click', function() {
+  avatarFormValidator.resetValidation();
   avatarFormValidator.validateOnOpen();
   popupAvatarUpdate.open();
 })
 
 cardAddButton.addEventListener('click', function() {
+  cardFormValidator.resetValidation();
   popupAddCard.open();
   cardFormValidator.validateOnOpen();
 })
 
 profileEditButton.addEventListener('click', function() {
   const profileInputValues = userInfo.getUserInfo();
-  inputName.value = profileInputValues.name;
-  inputDescription.value = profileInputValues.description;
+  popupEditProfile.setInputValues(profileInputValues);
+  profileFormValidator.resetValidation();
   popupEditProfile.open();
   profileFormValidator.validateOnOpen();
 })
