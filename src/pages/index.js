@@ -48,13 +48,13 @@ function handleDeleteCard(cardId, card) {
 
 function handleConfirmSubmit() {
   popupConfirmation.renderLoading(true);
-  api.deleteCard(this._cardId)
+  api.deleteCard(this.cardId)
     .then(() => {
-      this._card.remove();
-      this._card = null;
+      popupConfirmation.card.remove();
+      popupConfirmation.card = null;
       popupConfirmation.close();
     })
-  .finally(() => popupConfirmation.renderLoading(false));
+    .finally(() => popupConfirmation.renderLoading(false));
 }
 
 function handleEditProfile({ name, description }) {
@@ -72,7 +72,7 @@ function handleAddSubmit(inputs) {
   popupAddCard.renderLoading(true, "Создание...");
   api.postCard(inputs)
     .then(res => {
-      renderer(res);
+      cardList.addItem(res);
       popupAddCard.close();
     })
     .catch((err) => console.log(err))
@@ -91,37 +91,29 @@ function handleUpdateAvatar({ avatar }) {
 }
 
 function handleCardClick(link, name) {
-  popupImage.src = link;
-  popupImage.alt = name;
-  popupPhotoImageDescription.innerText = name;
   popupWithImage.open(link, name);
 }
 
-function handleLikeCard() {
-  if (this.isLiked()) {
-    api.removeLike(this._cardId)
+function handleLikeCard(card) {
+  if (card.isLiked()) {
+    api.removeLike(card._cardId)
       .then(res => {
-        this.setLikeCount(res.likes.length);
-        this._likes = res.likes;
+        card.setLikeCount(res.likes.length);
+        card.setLikeData(res.likes);
+        card.removeLike();
       });
-    this._likeButton.classList.remove('photo-grid__card-btn_liked')
   } else {
-    api.addLike(this._cardId)
+    api.addLike(card._cardId)
       .then(res => {
-        this.setLikeCount(res.likes.length);
-        this._likes = res.likes;
+        card.setLikeCount(res.likes.length);
+        card.setLikeData(res.likes);
+        card.addLike();
       });
-    this._likeButton.classList.add('photo-grid__card-btn_liked')
   }
 }
 
 
 function renderer(item) {
-  const card = createCard(item);
-  cardList.addItem(card);
-}
-
-function createCard(item) {
   const card = new Card(item, '#item__template', handleCardClick, handleDeleteCard, handleLikeCard, userId);
   return card.generateCard();
 }
@@ -156,19 +148,19 @@ popupWithImage.setEventListeners();
 popupConfirmation.setEventListeners();
 popupAvatarUpdate.setEventListeners();
 
-userAvatar.addEventListener('click', function() {
+userAvatar.addEventListener('click', function () {
   avatarFormValidator.resetValidation();
   avatarFormValidator.validateOnOpen();
   popupAvatarUpdate.open();
 })
 
-cardAddButton.addEventListener('click', function() {
+cardAddButton.addEventListener('click', function () {
   cardFormValidator.resetValidation();
   popupAddCard.open();
   cardFormValidator.validateOnOpen();
 })
 
-profileEditButton.addEventListener('click', function() {
+profileEditButton.addEventListener('click', function () {
   const profileInputValues = userInfo.getUserInfo();
   popupEditProfile.setInputValues(profileInputValues);
   profileFormValidator.resetValidation();

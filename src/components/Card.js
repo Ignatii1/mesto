@@ -31,7 +31,7 @@ export default class Card {
 
   _addLikeButtonListener() {
     this._likeButton.addEventListener('click', () => {
-      this._handleLikeCard();
+      this._handleLikeCard(this);
     })
   }
 
@@ -58,12 +58,20 @@ export default class Card {
     this._likesNumber.innerText = likesNumber;
   }
 
+  setLikeData(data) {
+    this._likes = data;
+  }
+
   isLiked() {
     return Boolean(this._likes.find(like => like._id === this._userId));
   }
 
-  updateLikes() {
+  addLike() {
+    this._likeButton.classList.add('photo-grid__card-btn_liked');
+  }
 
+  removeLike() {
+    this._likeButton.classList.remove('photo-grid__card-btn_liked');
   }
 
   deleteCard() {
