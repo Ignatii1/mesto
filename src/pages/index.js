@@ -83,7 +83,7 @@ function handleUpdateAvatar({ avatar }) {
   popupAvatarUpdate.renderLoading(true);
   api.updateAvatar(avatar)
     .then(res => {
-      userInfo.setAvatar(res.avatar);
+      userInfo.setUserInfo(res);
       popupAvatarUpdate.close();
     })
     .catch((err) => console.log(err))
@@ -150,14 +150,12 @@ popupAvatarUpdate.setEventListeners();
 
 userAvatar.addEventListener('click', function () {
   avatarFormValidator.resetValidation();
-  avatarFormValidator.validateOnOpen();
   popupAvatarUpdate.open();
 })
 
 cardAddButton.addEventListener('click', function () {
   cardFormValidator.resetValidation();
   popupAddCard.open();
-  cardFormValidator.validateOnOpen();
 })
 
 profileEditButton.addEventListener('click', function () {
@@ -165,5 +163,4 @@ profileEditButton.addEventListener('click', function () {
   popupEditProfile.setInputValues(profileInputValues);
   profileFormValidator.resetValidation();
   popupEditProfile.open();
-  profileFormValidator.validateOnOpen();
 })
