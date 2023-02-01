@@ -34,7 +34,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     const [profileInfo, cardsArray] = res;
     userInfo.setUserInfo(profileInfo);
     userId = userInfo.getId();
-
+    console.log(userId);
     cardList.renderItems(cardsArray.reverse());
   })
   .catch((err) => console.log(err));
